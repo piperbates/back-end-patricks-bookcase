@@ -1,9 +1,11 @@
 const express = require('express');
+const cors = require('cors')
 const router = express.Router();
 const {
  getAllBooks, getBookById, addBook
 } = require(`../db/models/index`);
 
+router.use(cors());
 
 
 //get all books
