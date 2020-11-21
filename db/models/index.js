@@ -51,9 +51,18 @@ async function addBook(book) {
 //DELETE req
 
 async function deleteBook(id) {
-  console.log("The id is: " + id)
+  console.log("The id is: " + id);
   const res = await query(`DELETE FROM library WHERE ID = ${id};`);
   return res;
 }
 
-module.exports = { getAllBooks, getBookById, addBook, deleteBook };
+//SEARCH BY TITLE
+async function search(userInput) {
+  console.log("The id is: " + userInput);
+  const res = await query(
+    `SELECT * FROM library WHERE title = '${userInput}';`
+  );
+  return res.rows;
+}
+
+module.exports = { getAllBooks, getBookById, addBook, deleteBook, search };
