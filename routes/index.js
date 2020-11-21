@@ -30,7 +30,8 @@ router.get("/book/:id", async function (req, res) {
 router.post("/add", async function (req, res) {
   let data = req.body;
   const book = await addBook(data);
-  res.json(`${book.title} has been added to the database`);
+  console.log(book)
+  res.json(`Success!`);
 });
 
 // title,
