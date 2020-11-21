@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const router = express.Router();
 const {
- getAllBooks, getBookById, addBook
+ getAllBooks, getBookById, addBook, deleteBook
 } = require(`../db/models/index`);
 
 router.use(cors());
@@ -31,8 +31,17 @@ router.post("/add", async function (req, res) {
   let data = req.body;
   const book = await addBook(data);
   console.log(book)
-  res.json(`Success!`);
+  res.json(data.title + " has been added");
 });
+
+//delete book
+router.delete("/delete/:id", async function(req, res){
+  let data = req.params.id;
+  console.log(data)
+  const bookDeleted = await deleteBook(data);
+  res.json(`Book with id ${data} has been deleted`)
+  
+})
 
 // title,
 // author,

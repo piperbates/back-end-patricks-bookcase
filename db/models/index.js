@@ -10,30 +10,29 @@ async function getAllBooks() {
   return res.rows;
 }
 
-
 //get book by id
 async function getBookById(id) {
-    const res = await query(`
+  const res = await query(`
     SELECT * FROM library
     WHERE ID = ${id}
       `);
-    return res.rows;
-  }
+  return res.rows;
+}
 
-  //get book by author (currently doesn't function)
-  async function getBookByAuthor(author) {
-    const res = await query(`
+//get book by author (currently doesn't function)
+async function getBookByAuthor(author) {
+  const res = await query(`
     SELECT * FROM library
     WHERE AUTHOR = ${author}
       `);
-    return res.rows;
-  }
+  return res.rows;
+}
 
-  //PUSH REQUESTS
+//PUSH REQUESTS
 
-  async function addBook(book) {
-    const res = await query(
-      `
+async function addBook(book) {
+  const res = await query(
+    `
       INSERT INTO library (
         title,
         author,
@@ -44,17 +43,17 @@ async function getBookById(id) {
         )
       VALUES ($1, $2, $3, $4, $5, $6)
       `,
-      [
-        book.title,
-        book.author,
-        book.genre,
-        book.read,
-        book.series,
-        book.leant
-      ]
-    );
-    return res;
-  }
+    [book.title, book.author, book.genre, book.read, book.series, book.leant]
+  );
+  return res;
+}
 
+//DELETE req
 
-module.exports = {getAllBooks, getBookById, addBook}
+async function deleteBook(id) {
+  console.log("The id is: " + id)
+  const res = await query(`DELETE FROM library WHERE ID = ${id};`);
+  return res;
+}
+
+module.exports = { getAllBooks, getBookById, addBook, deleteBook };
