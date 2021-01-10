@@ -60,9 +60,9 @@ async function deleteBook(id) {
 async function search(userInput) {
   console.log("The id is: " + userInput);
   const res = await query(
-    `SELECT * FROM library WHERE title ILIKE '${userInput}' OR 
-    author ILIKE '${userInput}'  OR  
-    series ILIKE '${userInput}'
+    `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR 
+    author ILIKE '%${userInput}%'  OR  
+    series ILIKE '%${userInput}%'
 ;`
   );
   return res.rows;
