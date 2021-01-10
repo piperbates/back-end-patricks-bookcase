@@ -56,16 +56,53 @@ async function deleteBook(id) {
   return res;
 }
 
-//SEARCH BY TITLE
-async function search(userInput) {
-  console.log("The id is: " + userInput);
-  const res = await query(
-    `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR 
-    author ILIKE '%${userInput}%'  OR  
-    series ILIKE '%${userInput}%'
-;`
-  );
-  return res.rows;
+//SEARCH BY TITLE / AUTHOR / GENRE / SERIES
+async function search(userInput, readValue) {
+  const sqlSearchQuery = `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR 
+  author ILIKE '%${userInput}%'  OR  
+  series ILIKE '%${userInput}%' OR
+  genre ILIKE '${userInput}%
+;`;
+  // console.log("The id is: " + userInput);
+  if (readValue) {
+    const res = await query(searchQuery);
+  } else if (readValue === "searchIfRead") {
+    const res = await query(
+      searchQuery + `SELECT * FROM library WHERE read = 'true'`
+    );
+  } else if (readValue === "searchIfNotRead"){
+    const res = await query(
+      searchQuery + `SELECT * FROM library WHERE read IS NULL`
+    );
+  }
 }
 
-module.exports = { getAllBooks, getBookById, addBook, deleteBook, search };
+//   const res = await query(
+//     `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR
+//     author ILIKE '%${userInput}%'  OR
+//     series ILIKE '%${userInput}%' OR
+//     genre ILIKE '${userInput}%
+// ;`
+//   );
+//   return res.rows;
+// }
+
+//SEARCH BY READ OR NOT READ
+
+// async function searchByRead(userInput) {
+//   // console.log("The id is: " + userInput);
+//   const res = await query(
+//     userInput
+//       ? `SELECT * FROM library WHERE read = 'true'`
+//       : `SELECT * FROM library WHERE read IS NULL`
+//   );
+//   return res.rows;
+// }
+
+module.exports = {
+  getAllBooks,
+  getBookById,
+  addBook,
+  deleteBook,
+  search,
+};
