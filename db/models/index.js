@@ -66,14 +66,17 @@ async function search(userInput, readValue) {
   // console.log("The id is: " + userInput);
   if (readValue) {
     const res = await query(searchQuery);
+    return res.rows;
   } else if (readValue === "searchIfRead") {
     const res = await query(
       searchQuery + `SELECT * FROM library WHERE read = 'true'`
     );
-  } else if (readValue === "searchIfNotRead"){
+    return res.rows;
+  } else if (readValue === "searchIfNotRead") {
     const res = await query(
       searchQuery + `SELECT * FROM library WHERE read IS NULL`
     );
+    return res.rows;
   }
 }
 
