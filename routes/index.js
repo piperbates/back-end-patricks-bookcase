@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const router = express.Router();
 const {
- getAllBooks, getBookById, addBook, deleteBook, search
+ getAllBooks, getBookById, addBook, deleteBook, search, searchByRead
 } = require(`../db/models/index`);
 
 router.use(cors());
@@ -30,6 +30,15 @@ router.get("/search/:id", async function (req, res) {
   const items = await search(userInput);
   res.json({ success: true, payload: items });
 });
+
+//Search by read
+// router.get("/search/", async function (req, res) {
+//   const userInput = req.params.id;
+//   const items = await search(userInput);
+//   res.json({ success: true, payload: items });
+// });
+
+
 
 
 //Add new book

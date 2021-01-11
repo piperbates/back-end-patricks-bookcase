@@ -57,55 +57,25 @@ async function deleteBook(id) {
 }
 
 //SEARCH BY TITLE / AUTHOR / GENRE / SERIES
-async function search(userInput, readValue) {
-  const sqlSearchQuery = `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR 
-  author ILIKE '%${userInput}%'  OR  
-  series ILIKE '%${userInput}%' OR
-  genre ILIKE '${userInput}%
-;`;
-  // console.log("The id is: " + userInput);
-  if (readValue) {
-    const res = await query(searchQuery);
-    return res.rows;
-  } else if (readValue === "searchIfRead") {
-    const res = await query(
-      searchQuery + `SELECT * FROM library WHERE read = 'true'`
-    );
-    return res.rows;
-  } else if (readValue === "searchIfNotRead") {
-    const res = await query(
-      searchQuery + `SELECT * FROM library WHERE read IS NULL`
-    );
-    return res.rows;
-  }
+async function search(userInput) {
+  const res = await query(
+    `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR 
+    author ILIKE '%${userInput}%'  OR  
+    series ILIKE '%${userInput}%' OR
+    genre ILIKE '%${userInput}%'
+;`
+  );
+  return res.rows;
 }
 
-//   const res = await query(
-//     `SELECT * FROM library WHERE title ILIKE '%${userInput}%' OR
-//     author ILIKE '%${userInput}%'  OR
-//     series ILIKE '%${userInput}%' OR
-//     genre ILIKE '${userInput}%
-// ;`
-//   );
-//   return res.rows;
-// }
+//SEARCH BY READ OR NOT READ 
 
-//SEARCH BY READ OR NOT READ
+async function searchByRead(userInput) {
+  // console.log("The id is: " + userInput);
+  const res = await query(userInput ? `SELECT * FROM library WHERE read = 'true'` :
+    `SELECT * FROM library WHERE read IS NULL`
+  );
+  return res.rows;
+}
 
-// async function searchByRead(userInput) {
-//   // console.log("The id is: " + userInput);
-//   const res = await query(
-//     userInput
-//       ? `SELECT * FROM library WHERE read = 'true'`
-//       : `SELECT * FROM library WHERE read IS NULL`
-//   );
-//   return res.rows;
-// }
-
-module.exports = {
-  getAllBooks,
-  getBookById,
-  addBook,
-  deleteBook,
-  search,
-};
+module.exports = { getAllBooks, getBookById, addBook, deleteBook, search, searchByRead };
