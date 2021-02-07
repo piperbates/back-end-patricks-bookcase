@@ -28,7 +28,7 @@ async function getBookByAuthor(author) {
   return res.rows;
 }
 
-//PUSH REQUESTS
+//POST REQUESTS
 
 async function addBook(book) {
   const res = await query(
@@ -56,6 +56,18 @@ async function deleteBook(id) {
   return res;
 }
 
+//PATCH / Update req 
+
+/* Currently can only change from unread to read and viceversa. Working on being able to update the whole thing. */
+
+async function updateBook(id, book) {
+  const response = await query(
+    `UPDATE library SET read = COALESCE($1, read) WHERE id = ${id}`, [book.read]
+  )
+};
+
+
+
 //SEARCH BY TITLE / AUTHOR / GENRE / SERIES
 async function search(userInput) {
   const res = await query(
@@ -78,4 +90,4 @@ async function searchByRead(userInput) {
   return res.rows;
 }
 
-module.exports = { getAllBooks, getBookById, addBook, deleteBook, search, searchByRead };
+module.exports = { getAllBooks, getBookById, addBook, deleteBook, search, searchByRead, updateBook };
