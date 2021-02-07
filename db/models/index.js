@@ -62,7 +62,7 @@ async function deleteBook(id) {
 
 async function updateBook(id, book) {
   const response = await query(
-    `UPDATE library SET read = COALESCE($1, read) WHERE id = ${id}`, [book.read]
+    `UPDATE library SET title = COALESCE($1, title), author = COALESCE($2, author), genre = COALESCE($3, genre), series = COALESCE($4, series), read = COALESCE($5, read), leant = COALESCE($6, leant) WHERE id = ${id}`, [book.title, book.author, book.genre, book.series, book.read, book.leant]
   )
 };
 
